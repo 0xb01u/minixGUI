@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "colors.h"
-#include "filetools.h"
+#include "include/colors.h"
+#include "include/filetools.h"
 
 #define FNAME  ".filelist"
 #define DNAME  ".isdirectory"

@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <string.h>
-#include "filetools.h"
+#include "include/filetools.h"
+
+#ifndef LINE_SIZE
+  #define LINE_SIZE 256 + 2
+#endif
 
 int getStringLine(char **lineptr, FILE *stream)
   {
@@ -49,8 +53,7 @@ int countLines(FILE *fp)
 
   if (fseek(fp, 0L, SEEK_SET) != 0)
   {
-    printf("Error al cargar el número de ficheros\n");
-    exit(-1);
+    return -1;
   }
 
   return i;
