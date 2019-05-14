@@ -22,9 +22,7 @@
   #define NAME_SIZE 16
   #define COMPILE "compila"
 #else
-  #define CLR   "clear"
-  #define NAME_SIZE 256
-  #define COMPILE "echo No estás en Minix xD"
+  #include "include/ubuntudev.h"
 #endif
 #include <unistd.h>
 
@@ -244,7 +242,7 @@ int main(int argc, char const *argv[])
     			  break;
     			case 3: system("reboot");
     			  break;
-    			case 4: system("compila");
+    			case 4: system(COMPILE);
     			  break;
     			default: printf("Error al ejecutar opción");
     		}
