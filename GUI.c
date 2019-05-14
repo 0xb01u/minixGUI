@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "colors.h"
+#include "filetools.h"
 
 #define FNAME  ".filelist"
 #define DNAME  ".isdirectory"
@@ -16,78 +18,15 @@
 
 #if defined(__minix)
   #include <sys/types.h>
-  #include <colors.h>
   #define CLR   "clr"
   #define NAME_SIZE 16
   #define COMPILE "compila"
 #else
   #define CLR   "clear"
   #define NAME_SIZE 256
-  #define BLACK   "\x1b[1;30m"
-  #define RED     "\x1b[1;31m"
-  #define GREEN   "\x1b[1;32m"
-  #define YELLOW  "\x1b[1;33m"
-  #define BLUE    "\x1b[1;34m"
-  #define MAGENTA "\x1b[1;35m"
-  #define CYAN    "\x1b[1;36m"
-  #define WHITE   "\x1b[1;37m"
   #define COMPILE "echo No estás en Minix xD"
 #endif
 #include <unistd.h>
-
-int getStringLine(char **lineptr, FILE *stream)
-  {
-    static char line[LINE_SIZE];
-    unsigned int len;
-    char c;
-    int i = 0;
-
-    if (lineptr == NULL)
-    {
-      return -1;
-    }
-
-    if (ferror(stream))
-      return -1;
-
-    if (feof(stream))
-      return -1;
-      
-    if (fgets(line, LINE_SIZE, stream) == NULL)
-      return -1;
-
-    while (line[i++] != '\n');
-    line[--i] = '\0';
-
-    if ((c = fgetc(stream)) != EOF)
-    	ungetc((int) c, stream);
-
-    len = strlen(line);
-
-    strcpy(*lineptr, line);
-    return(len);
-  }
-
-int countLines(FILE *fp)
-{
-  int i = 0;
-  char *line;
-  int read = 0;
-
-  while ((read = getStringLine(&line, fp)) != -1)
-  {
-    i++;
-    if (line[0] == '.') i--;
-  }
-
-  if (fseek(fp, 0L, SEEK_SET) != 0)
-  {
-    printf("Error al cargar el número de ficheros\n");
-    exit(-1);
-  }
-
-  return i;
-}
 
 int main(int argc, char const *argv[])
 {
