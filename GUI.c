@@ -106,11 +106,11 @@ int main(int argc, char const *argv[])
 
     for (i = 0; i < NOPTIONS; i++)
     {
-    	if ((mode == OPTIONS) && (oSelected == i))
-    		printf(MAGENTA"%s   "WHITE, options[i]);
-    	else
-    		printf(CYAN"%s   "WHITE, options[i]);
-    }    
+      if ((mode == OPTIONS) && (oSelected == i))
+        printf(MAGENTA"%s   "WHITE, options[i]);
+      else
+        printf(CYAN"%s   "WHITE, options[i]);
+    }
     getcwd(src2, SOURCE_SIZE - 1);
     printf(BLUE"\nPath: %s\n\n"WHITE, src2);
 
@@ -121,8 +121,8 @@ int main(int argc, char const *argv[])
       else if (items[i][0] != '.')
         printf("%s   ", items[i]);
       if ((i + 1) % NOPTIONS == 0)
-      	printf("\n");
-    }
+        printf("\n");
+    } 
     printf(YELLOW"\nArrows: move   o/a: open/action   p: go to parent   q: options/files\n"WHITE);
 
     system("rm "FNAME);
@@ -131,15 +131,15 @@ int main(int argc, char const *argv[])
 
     if (action == 'q')
     {
-    	mode = -~mode % 2;
-    	selected = mode == FILES ? &fSelected : &oSelected;
+      mode = -~mode % 2;
+      selected = mode == FILES ? &fSelected : &oSelected;
     }
 
-  	else if (action == 'p')
-  	{
- 		  chdir("..");
+    else if (action == 'p')
+    {
+       chdir("..");
       fSelected = 0;
-  	}
+    }
 
     else if (action == '\033')
     {
@@ -191,10 +191,10 @@ int main(int argc, char const *argv[])
           fSelected = 0;
         }
         else
-    	{
+      {
           printf("\n\n");
           getchar();
-    	}
+      }
 
         system("rm "DNAME);
         fclose(fp);
@@ -209,15 +209,15 @@ int main(int argc, char const *argv[])
 
     else if (mode == OPTIONS)
     {
-    	if (action == 'o' || action == 'a')
-    	{
-    		switch (oSelected)
-    		{
-    			case 0: chdir("..");
-    			  mode = FILES;
+      if (action == 'o' || action == 'a')
+      {
+        switch (oSelected)
+        {
+          case 0: chdir("..");
+            mode = FILES;
             fSelected = 0;
-    			  break;
-    			case 1:
+            break;
+          case 1:
             printf("\n"GREEN"MINIX console"WHITE":"BLUE"%s"WHITE"$ ", src2);
             fgets(src1, SOURCE_SIZE - 1, stdin);
 
@@ -235,16 +235,16 @@ int main(int argc, char const *argv[])
             }
             else system(src1);
             getchar();
-    			  break;
-    			case 2: system("shutdown -h now");
-    			  break;
-    			case 3: system("reboot");
-    			  break;
-    			case 4: system(COMPILE);
-    			  break;
-    			default: printf("Error al ejecutar opción");
-    	  }
-    	}
+            break;
+          case 2: system("shutdown -h now");
+            break;
+          case 3: system("reboot");
+            break;
+          case 4: system(COMPILE);
+            break;
+          default: printf("Error al ejecutar opción");
+        }
+      }
     }
 
     free(items);
