@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "include/filetools.h"
+#include "include/ftools.h"
 
 #ifndef LINE_SIZE
   #define LINE_SIZE 256 + 2
