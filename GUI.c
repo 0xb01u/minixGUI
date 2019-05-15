@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "include/colors.h"
-#include "include/filetools.h"
+#include "include/f.h"
 
 #define FNAME  ".filelist"
 #define DNAME  ".isdirectory"
@@ -22,7 +22,7 @@
   #define NAME_SIZE 16
   #define COMPILE "compila"
 #else
-  #include "include/ubuntudev.h"
+  #include "include/ubdev.h"
 #endif
 #include <unistd.h>
 

@@ -1,8 +1,8 @@
-GUI : GUI.o filetools.o
-	gcc -o GUI GUI.o filetools.o
-	rm GUI.o filetools.o
+GUI : GUI.o ftools.o
+	cc -o GUI GUI.o ftools.o
+	rm GUI.o ftools.o
 
-GUI.o : GUI.c include/colors.h include/filetools.h include/ubuntudev.h
-	gcc -c GUI.c
-filetools.o : filetools.c
-	gcc -c filetools.c
+GUI.o : GUI.c include/colors.h include/ftools.h include/ubdev.h
+	cc -c GUI.c
+ftools.o : ftools.c
+	cc -c ftools.c
