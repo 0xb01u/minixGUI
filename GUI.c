@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "include/colors.h"
-#include "include/f.h"
+#include "include/ftools.h"
 
 #define FNAME  ".filelist"
 #define DNAME  ".isdirectory"
@@ -26,7 +26,7 @@
 #endif
 #include <unistd.h>
 
-int main(int argc, char const *argv[])
+int main(void)
 {
   FILE *fp;
 
@@ -35,7 +35,6 @@ int main(int argc, char const *argv[])
   char *checkDirectory;
   int n_items;
   int limit;
-  size_t len = 0;
   int read = 0;
 
   const char *options[NOPTIONS];
@@ -143,6 +142,7 @@ int main(int argc, char const *argv[])
 
     else if (action == '\033')
     {
+      getchar();
       columns = limit < NOPTIONS ? limit : NOPTIONS;
 
       switch (getchar())
