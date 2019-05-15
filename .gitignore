@@ -1,3 +1,5 @@
 GUI
 GUI.o
 filetools.o
+.filelist
+.isdirectory
