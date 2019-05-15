@@ -69,7 +69,7 @@ int main(int argc, char const *argv[])
   while (1)
   {
     if ((src1 = (char*) malloc(SOURCE_SIZE * sizeof (char))) == NULL
-      || (src2 = (char*) malloc(SOURCE_SIZE * sizeof (char))) == NULL)
+     || (src2 = (char*) malloc(SOURCE_SIZE * sizeof (char))) == NULL)
     {
       printf("Error al reservar espacio de intercambio\n");
       exit(-2);
@@ -128,7 +128,6 @@ int main(int argc, char const *argv[])
     system("rm "FNAME);
     
     action = getchar();
-    getchar();
 
     if (action == 'q')
     {
@@ -171,7 +170,6 @@ int main(int argc, char const *argv[])
         default:
           break;
       }
-      getchar();
     }
 
     else if (mode == FILES)
@@ -245,14 +243,15 @@ int main(int argc, char const *argv[])
     			case 4: system(COMPILE);
     			  break;
     			default: printf("Error al ejecutar opción");
-    		}
+    	  }
     	}
     }
 
     free(items);
     free(src1);
     free(src2);
-    fflush(stdin);
+
+    while (getchar() != '\n');
   }
   system(CLR);
 
