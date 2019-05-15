@@ -7,7 +7,7 @@
 #endif
 
 int getStringLine(char **lineptr, FILE *stream)
-  {
+{
     static char line[LINE_SIZE];
     unsigned int len;
     char c;

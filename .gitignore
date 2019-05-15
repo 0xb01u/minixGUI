@@ -1,4 +1,5 @@
 GUI
+GUI_ubuntu
 GUI.o
 filetools.o
 .filelist

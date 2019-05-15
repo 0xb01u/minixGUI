@@ -2,10 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <sys/types.h>
-#define CLR   "clr"
-#define NAME_SIZE 16
-#define COMPILE "compila"
+#if defined(__minix)
+  #include <sys/types.h>
+  #define CLR   "clr"
+  #define NAME_SIZE 16
+  #define COMPILE "compila"
+#else
+  #include "include/ubdev.h"
+#endif
 
 #define FNAME  ".filelist"
 #define DNAME  ".isdirectory"
@@ -20,10 +24,8 @@
 #define SOURCE_SIZE 256
 
 #include <unistd.h>
-#include <colors.h>
-
-int getStringLine(char **lineptr, FILE *stream);
-int countLines(FILE *fp);
+#include "include/colors.h"
+#include "include/ftools.h"
 
 int main(void)
 {
@@ -255,57 +257,4 @@ int main(void)
   system(CLR);
 
   return 0;
-}
-
-int getStringLine(char **lineptr, FILE *stream)
-{
-    static char line[LINE_SIZE];
-    unsigned int len;
-    char c;
-    int i = 0;
-
-    if (lineptr == NULL)
-    {
-      return -1;
-    }
-
-    if (ferror(stream))
-      return -1;
-
-    if (feof(stream))
-      return -1;
-      
-    if (fgets(line, LINE_SIZE, stream) == NULL)
-      return -1;
-
-    while (line[i++] != '\n');
-    line[--i] = '\0';
-
-    if ((c = fgetc(stream)) != EOF)
-    	ungetc((int) c, stream);
-
-    len = strlen(line);
-
-    strcpy(*lineptr, line);
-    return(len);
-  }
-
-int countLines(FILE *fp)
-{
-  int i = 0;
-  char *line;
-  int read = 0;
-
-  while ((read = getStringLine(&line, fp)) != -1)
-  {
-    i++;
-    if (line[0] == '.') i--;
-  }
-
-  if (fseek(fp, 0L, SEEK_SET) != 0)
-  {
-    return -1;
-  }
-
-  return i;
 }
