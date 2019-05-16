@@ -128,6 +128,9 @@ int main(void)
     system("rm "FNAME);
     
     action = getchar();
+    getchar();
+    if (action == '\033') { action = getchar(); getchar(); }
+    /* while (getchar() != '\n'); */
 
     if (action == 'q')
     {
@@ -141,12 +144,11 @@ int main(void)
       fSelected = 0;
     }
 
-    else if (action == '\033')
+    else if (action == LEFT || action == RIGHT || action == UP || action == DOWN)
     {
-      getchar();
       columns = limit < NOPTIONS ? limit : NOPTIONS;
 
-      switch (getchar())
+      switch (action)
       {
         case LEFT:
           *selected = (*selected + limit - 1) % limit;
@@ -252,7 +254,6 @@ int main(void)
     free(src1);
     free(src2);
 
-    while (getchar() != '\n');
   }
   system(CLR);
 
