@@ -114,7 +114,7 @@ int main(void)
         printf(CYAN"%s   "WHITE, options[i]);
     }
     getcwd(src2, SOURCE_SIZE - 1);
-    printf(BLUE"\nPath: %s\n\n"WHITE, src2);
+    printf(RED"\nPath: %s\n\n"WHITE, src2);
 
     for (i = 0; i < n_items; i++)
     {
@@ -122,10 +122,10 @@ int main(void)
         printf(GREEN"%s   "WHITE, items[i]);
       else if (items[i][0] != '.')
         printf("%s   ", items[i]);
-      if ((i + 1) % NOPTIONS == 0)
+      if (((i + 1) % NOPTIONS == 0) && (i < n_items - 1))
         printf("\n");
     } 
-    printf(YELLOW"\nArrows: move   o/a: open/action   r: remove   p: go to parent   q: options/files\n"WHITE);
+    printf(YELLOW"\n\nArrows: move   o/a: open/action   r: remove   p: go to parent\nq: options/files   t: console\n"WHITE);
 
     system("rm "FNAME);
 
@@ -182,20 +182,21 @@ int main(void)
       {
         system(CLR);
 
-        strcpy(src1, "cat ");
+        strcpy(src1, "cd ");
         strcpy(src2, " 2> "DNAME);
 
         system(strcat(strcat(src1, items[fSelected]), src2));
 
         fp = fopen(DNAME, "r");
-        if (getStringLine((char **) &checkDirectory, fp) != -1)
+        if (getStringLine((char **) &checkDirectory, fp) == -1)
         {
-          strcpy(src1, "./");
-          chdir(strcat(src1, items[fSelected]));
+          chdir(items[fSelected]);
           fSelected = 0;
         }
         else
       {
+          strcpy(src1, "cat ");
+          system(strcat(src1, items[fSelected]));
           printf("\n\n");
           getchar();
       }
@@ -215,7 +216,14 @@ int main(void)
       }
     }
 
-    else if (mode == OPTIONS)
+    if (action == 't')
+    {
+      mode = OPTIONS;
+      action = 'o';
+      oSelected = 1;
+    }
+
+    if (mode == OPTIONS)
     {
       if (action == 'o' || action == 'a')
       {
