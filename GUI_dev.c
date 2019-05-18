@@ -127,7 +127,7 @@ int main(void)
       if (((i + 1) % NOPTIONS == 0) && (i < n_items - 1))
         printf("\n");
     } 
-    printf(YELLOW"\n\nArrows: move   o/a: open/action   r: remove   p: go to parent\nq: options/files   t: console\n"WHITE);
+    printf(YELLOW"\n\nArrows: move   o/a: open/action   r: remove   p: go to parent\nq: options/files   t: console"WHITE"\n\n");
 
     system("rm "FNAME);
 
