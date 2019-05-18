@@ -4,9 +4,15 @@
 
 #if defined(__minix)
   #include <sys/types.h>
+  #include <minix/syslib.h>
+  #include <lib.h>
   #define CLR   "clr"
   #define NAME_SIZE 16
   #define COMPILE "compila"
+  #define UP      (char) 0x81
+  #define DOWN    (char) 0x82
+  #define RIGHT   (char) 0x83
+  #define LEFT    (char) 0x84
 #else
   #include "include/ubdev.h"
 #endif
@@ -17,15 +23,13 @@
 #define FILES 0
 #define OPTIONS 1
 #define NOPTIONS 5
-#define UP      'A'
-#define DOWN    'B'
-#define RIGHT   'C'
-#define LEFT    'D'
 #define SOURCE_SIZE 256
 
 #include <unistd.h>
 #include "include/colors.h"
 #include "include/ftools.h"
+
+char getkey();
 
 int main(void)
 {
@@ -123,14 +127,13 @@ int main(void)
       if ((i + 1) % NOPTIONS == 0)
         printf("\n");
     } 
-    printf(YELLOW"\nArrows: move   o/a: open/action   p: go to parent   q: options/files\n"WHITE);
+    printf(YELLOW"\nArrows: move   o/a: open/action   r: remove   p: go to parent   q: options/files\n"WHITE);
 
     system("rm "FNAME);
+
+
     
-    action = getchar();
-    getchar();
-    if (action == '\033') { action = getchar(); getchar(); }
-    /* while (getchar() != '\n'); */
+    action = getkey();
 
     if (action == 'q')
     {
@@ -140,7 +143,7 @@ int main(void)
 
     else if (action == 'p')
     {
-       chdir("..");
+      chdir("..");
       fSelected = 0;
     }
 
@@ -203,10 +206,14 @@ int main(void)
         fclose(fp);
       }
 
-      else if (action == 'e')
+      else if (action == 'r')
       {
-        free(items);
-        break;
+        printf(WHITE"\n¿Eliminar %s? (Y/n) ", items[fSelected]);
+        if (getkey() == 'Y')
+        {
+          strcpy(src1, "rm ");
+          system(strcat(src1, items[fSelected]));
+        }
       }
     }
 
@@ -259,3 +266,38 @@ int main(void)
 
   return 0;
 }
+
+#if defined(__minix)
+  char getkey()
+  {
+    char c;
+    message m;
+
+    _taskcall(MM, DELBUF, &m);
+    while ((c = m.m1_i1) == 0) _taskcall(MM, GETKEY, &m);
+    getchar();
+    getchar();
+
+    if ((c & 0x80) && (c & 0x0F))
+    {
+      getchar();
+      getchar();
+    }
+
+    return c;
+  }
+#else
+  char getkey()
+  {
+    char a;
+    a = getchar();
+    getchar();
+    if (a == '\033')
+    {
+      a = getchar();
+      getchar();
+    }
+
+    return a;
+  }
+#endif
