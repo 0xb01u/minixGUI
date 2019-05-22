@@ -14,7 +14,6 @@
 #define LEFT    (char) 0x84
 
 #define FNAME  ".filelist"
-#define DNAME  ".isdirectory"
 #define LINE_SIZE NAME_SIZE + 2
 #define FILES 0
 #define OPTIONS 1
@@ -182,32 +181,24 @@ int main(void)
       {
         system(CLR);
 
-        strcpy(src1, "cd ");
-        strcpy(src2, " 2> "DNAME);
-
-        system(strcat(strcat(src1, items[fSelected]), src2));
-
-        fp = fopen(DNAME, "r");
-        if (getStringLine((char **) &checkDirectory, fp) == -1)
+        if (chdir(items[fSelected]) == -1)
         {
-          chdir(items[fSelected]);
-          fSelected = 0;
-        }
-        else
-      {
           strcpy(src1, "cat ");
           system(strcat(src1, items[fSelected]));
-          printf("\n\n");
-          getchar();
-      }
 
-        system("rm "DNAME);
-        fclose(fp);
+          printf("\n");
+          getchar();
+        }
+        else
+        {
+          fSelected = 0;
+        }
       }
 
       else if (action == 'r')
       {
-        printf(WHITE"\n¿Eliminar %s? (Y/n) ", items[fSelected]);
+        printf(WHITE"\nEliminar %s? (Y/n) ", items[fSelected]);
+        fflush(stdout);
         if (getkey() == 'Y')
         {
           strcpy(src1, "rm ");
@@ -245,7 +236,7 @@ int main(void)
             {
               if (chdir(strcat(src1 + 3, "")) == -1)
               {
-                printf("No se encontró el directorio especificado");
+                printf("No se encontro el directorio especificado");
               }
               fSelected = 0;
             }
