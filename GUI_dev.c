@@ -4,8 +4,8 @@
 
 #if defined(__minix)
   #include <sys/types.h>
-  #include <minix/syslib.h>
   #include <lib.h>
+  #include <minix/syslib.h>
   #define CLR   "clr"
   #define NAME_SIZE 16
   #define COMPILE "compila"
