@@ -32,9 +32,7 @@ char getkey();
 
 int main(void)
 {
-  /*
-   * Fichero que guarda los nombres de los ficheros del directorio.
-   */
+  /* Fichero que guarda los nombres de los ficheros del directorio. */
   FILE *fp;
 
   char **items; /* Array de nombres de los ficheros */
@@ -287,7 +285,7 @@ int main(void)
     _taskcall(MM, DELBUF, &m);
     /* Devolvemos el valor de tty_intail hasta que no sea 0 (se ha pulsado una tecla) */
     while ((c = m.m1_i1) == 0) _taskcall(MM, GETKEY, &m);
-    /* Descartamos que la terminal use la tecla pulsada y el '\n' introducido */ 
+    /* Descartamos la tecla pulsada y el '\n' introducido del buffer de la terminal */ 
     getchar();
     getchar();
   
